@@ -3,19 +3,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const registerBtn = document.getElementById('register-btn');
     const errorMessage = document.getElementById('error-message');
     const quizInputs = document.querySelectorAll('.quiz-input');
-    const recommendBtn = document.getElementById('recommend-btn'); // 追加
+    const recommendBtn = document.getElementById('recommend-btn');
 
-    // ▼▼▼ ここから追加 ▼▼▼
     // レコメンドボタンのイベント
     recommendBtn.addEventListener('click', async () => {
-        recommendBtn.textContent = "AIが考えています...";
+        recommendBtn.textContent = "AI is thinking...";
         recommendBtn.disabled = true;
-        showError(""); // エラーメッセージをクリア
+        showError("");
 
         try {
             const response = await fetch('/quizzes/recommendations');
             if (!response.ok) {
-                throw new Error("AIがスランプのようです。少し待ってからもう一度試してください。");
+                throw new Error("The AI seems to be in a slump. Please try again in a moment.");
             }
             const recommendations = await response.json();
 
@@ -30,17 +29,16 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             showError(error.message);
         } finally {
-            recommendBtn.textContent = "ネタに困ったら？ (AIが提案)";
+            recommendBtn.textContent = "Need ideas? (Ask AI)";
             recommendBtn.disabled = false;
         }
     });
-    // ▲▲▲ ここまで追加 ▲▲▲
 
     // 登録ボタンのイベント
     registerBtn.addEventListener('click', async () => {
         const username = usernameInput.value.trim();
         if (!username) {
-            showError("ユーザー名を入力してください。");
+            showError("Please enter a username.");
             return;
         }
 
@@ -57,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (!allValid) {
-            showError("すべてのクイズと答えを入力してください。");
+            showError("Please enter all questions and answers.");
             return;
         }
 
@@ -71,10 +69,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
 
             if (!response.ok) {
-                throw new Error(data.detail || "登録に失敗しました。");
+                throw new Error(data.detail || "Registration failed.");
             }
 
-            alert("登録が完了しました！ログイン画面に戻ります。");
+            alert("Registration complete! Returning to the login page.");
             window.location.href = '/'; // ログインページにリダイレクト
 
         } catch (error) {

@@ -1,39 +1,40 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>新規登録</title>
+    <title>Register</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
     <div class="container">
-        <h1>新規登録</h1>
-        <p>あなたの黒歴史を認証の鍵とせよ。</p>
+        <h1>Create Your Account</h1>
+        <p>Forge a key from your own dark history.</p>
         
         <div id="register-form">
-            <input type="text" id="username" placeholder="ユーザー名" required>
+            <input type="text" id="username" placeholder="Username" required>
             
-            <h2>秘密のクイズを3つ設定</h2>
-            <button id="recommend-btn" class="recommend-btn">ネタに困ったら？ (AIが提案)</button>
+            <h2>Set Your 3 Secret Quizzes</h2>
+            <button id="recommend-btn" class="recommend-btn">Need ideas? (Ask AI)</button>
+
             <div class="quiz-input">
-                <input type="text" class="question" placeholder="問題 1" required>
-                <input type="text" class="answer" placeholder="答え 1" required>
+                <input type="text" class="question" placeholder="Question 1" required>
+                <input type="text" class="answer" placeholder="Answer 1" required>
             </div>
             <div class="quiz-input">
-                <input type="text" class="question" placeholder="問題 2" required>
-                <input type="text" class="answer" placeholder="答え 2" required>
+                <input type="text" class="question" placeholder="Question 2" required>
+                <input type="text" class="answer" placeholder="Answer 2" required>
             </div>
             <div class="quiz-input">
-                <input type="text" class="question" placeholder="問題 3" required>
-                <input type="text" class="answer" placeholder="答え 3" required>
+                <input type="text" class="question" placeholder="Question 3" required>
+                <input type="text" class="answer" placeholder="Answer 3" required>
             </div>
 
-            <button id="register-btn">我が魂を登録する</button>
+            <button id="register-btn">Register My Soul</button>
         </div>
 
         <p id="error-message" class="error"></p>
-        <p><a href="/">ログイン画面に戻る</a></p>
+        <p><a href="/">Back to Login</a></p>
     </div>
     <script src="/static/register.js"></script>
 </body>

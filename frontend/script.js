@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     getQuestionBtn.addEventListener('click', async () => {
         const username = usernameInput.value;
         if (!username) {
-            showError("ユーザー名を入力してください。");
+            showError("Please enter a username.");
             return;
         }
 
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (!response.ok) {
-                throw new Error("ユーザーが見つからないか、サーバーエラーが発生しました。");
+                throw new Error("User not found or server error occurred.");
             }
 
             const data = await response.json();
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const answer = answerInput.value;
         
         if (!answer) {
-            showError("答えを入力してください！");
+            showError("Please enter the answer!");
             return;
         }
 
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (!response.ok) {
-                throw new Error("答えが違うようだ。己の過去と向き合え。");
+                throw new Error("The answer seems to be incorrect. Face your past.");
             }
             
             const data = await response.json();
@@ -97,9 +97,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // ここではダミーのポエムを生成
         const user = usernameInput.value;
         const poems = [
-            `闇夜に響く、${user}の叫び。\nそれは漆黒の涙か、\nそれともただの空腹か。`,
-            `風がささやく、${user}の伝説。\nギガデストロイヤーと共に駆け抜けた、\nあの夏の日々を忘れない。`,
-            `心に刻まれし、メロディー。\n${user}が初めて買ったCDは、\n今も魂を震わせる。`
+            `A cry from ${user} echoes in the dark night.\nIs it a tear of jet black,\nor merely hunger's bite?`,
+            `The wind whispers the legend of ${user}.\nNever forget those summer days,\nrunning with the Gigadestroyer.`,
+            `A melody engraved in the heart.\nThe first CD ${user} ever bought,\nstill makes the soul start.`
         ];
         poemOutput.textContent = poems[Math.floor(Math.random() * poems.length)];
     });
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function showWelcomeScreen(username) {
         quizSection.classList.add('hidden');
         welcomeSection.classList.remove('hidden');
-        welcomeMessage.textContent = `ようこそ、${username}。お前の闇は我々が知っている。`;
+        welcomeMessage.textContent = `Welcome, ${username}. We know your darkness.`;
         showError("");
     }
 
