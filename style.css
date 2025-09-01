@@ -1,0 +1,170 @@
+/* style.css */
+/* 1. モダンなフォントの導入 (Google Fonts) */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+    --primary-color: #ff4757;
+    --primary-hover-color: #e84150;
+    --background-start: #1e1e3f;
+    --background-end: #3c1e3f;
+    --text-color: #f0f0f0;
+    --container-bg: rgba(26, 26, 26, 0.6);
+    --input-bg: rgba(60, 60, 60, 0.8);
+    --border-color: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    color: var(--text-color);
+    font-family: 'Poppins', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px 0;
+    /* 2. 動きのある背景 */
+    background: linear-gradient(45deg, var(--background-start), var(--background-end));
+    background-size: 400% 400%;
+    animation: gradientAnimation 15s ease infinite;
+}
+
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.container {
+    /* 3. ガラスのような透明感 */
+    background-color: var(--container-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* Safari用 */
+    border: 1px solid var(--border-color);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    text-align: center;
+    width: 90%;
+    max-width: 500px;
+    transition: all 0.3s ease;
+}
+
+h1, h2 {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+h1 {
+    font-size: 1.8em;
+    margin-bottom: 10px;
+}
+
+h2 {
+    font-weight: 400;
+    margin-top: 30px;
+}
+
+p {
+    font-weight: 300;
+}
+
+input[type="text"] {
+    width: calc(100% - 24px);
+    padding: 12px;
+    margin: 10px 0;
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-color);
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 10px var(--primary-color);
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+button:hover {
+    background-color: var(--primary-hover-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+    transform: translateY(0);
+}
+
+/* 4. 滑らかなアニメーション用クラス */
+.hidden {
+    display: none;
+}
+.fade-out {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.fade-in {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* 5. ローディング表示用スピナー */
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* その他のスタイル */
+.error { color: #ff6b81; margin-top: 15px; min-height: 20px; }
+.register-link { margin-top: 20px; font-size: 14px; }
+a { color: var(--primary-color); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.quiz-input { margin-bottom: 15px; }
+.recommend-btn { background-color: #3c8d9e; font-size: 14px; padding: 10px; margin-bottom: 20px; }
+.recommend-btn:hover { background-color: #4db1c7; }
+
+#poem-output {
+    margin-top: 20px; padding: 15px; background-color: var(--input-bg);
+    border-left: 3px solid var(--primary-color); text-align: left; min-height: 50px;
+    border-radius: 5px;
+}
+.poem { white-space: pre-wrap; font-style: italic; }
+#logout-btn { background-color: #555; margin-top: 20px; }
+#logout-btn:hover { background-color: #666; }

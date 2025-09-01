@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Black History Login</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
@@ -14,7 +17,9 @@
             <h2>Login</h2>
             <p>First, please enter your username.</p>
             <input type="text" id="username" placeholder="Username">
-            <button id="get-question-btn">Get Your Quiz</button>
+            <button id="get-question-btn">
+                <span>Get Your Quiz</span>
+                <div class="spinner hidden"></div> </button>
             <div class="register-link">
                 <p>Don't have an account? <a href="/register">Register here</a></p>
             </div>
@@ -23,23 +28,16 @@
         <div id="quiz-section" class="hidden">
             <h2 id="question-text"></h2>
             <input type="text" id="answer" placeholder="Shout your answer!">
-            <button id="login-btn">Authenticate</button>
+            <button id="login-btn">
+                <span>Authenticate</span>
+                <div class="spinner hidden"></div> </button>
         </div>
 
         <div id="welcome-section" class="hidden">
-            <h2 id="welcome-message"></h2>
-            <p>Generating a new poem based on your dark history...</p>
-            <div id="poem-generator">
-                <button id="generate-poem-btn">Generate Poem</button>
-                <div id="poem-output">
-                    <p class="poem"></p>
-                </div>
             </div>
-            <button id="logout-btn">Logout</button>
-        </div>
 
         <p id="error-message" class="error"></p>
     </div>
-    <script src="/static/script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

@@ -1,3 +1,4 @@
+// register.js (リッチUI版)
 document.addEventListener('DOMContentLoaded', () => {
     const usernameInput = document.getElementById('username');
     const registerBtn = document.getElementById('register-btn');
@@ -5,10 +6,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const quizInputs = document.querySelectorAll('.quiz-input');
     const recommendBtn = document.getElementById('recommend-btn');
 
-    // レコメンドボタンのイベント
+    // --- Helper Functions ---
+    const showSpinner = (button) => {
+        const span = button.querySelector('span');
+        const spinner = button.querySelector('.spinner');
+        if (span) span.style.display = 'none';
+        if (spinner) spinner.classList.remove('hidden');
+        button.disabled = true;
+    };
+
+    const hideSpinner = (button) => {
+        const span = button.querySelector('span');
+        const spinner = button.querySelector('.spinner');
+        if (span) span.style.display = 'inline';
+        if (spinner) spinner.classList.add('hidden');
+        button.disabled = false;
+    };
+    
+    const showError = (message) => {
+        errorMessage.textContent = message;
+    };
+
+    // --- Event Listeners ---
     recommendBtn.addEventListener('click', async () => {
-        recommendBtn.textContent = "AI is thinking...";
-        recommendBtn.disabled = true;
+        showSpinner(recommendBtn);
         showError("");
 
         try {
@@ -18,7 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const recommendations = await response.json();
 
-            // 取得した提案をフォームにセット
             quizInputs.forEach((quizDiv, index) => {
                 if (recommendations[index]) {
                     quizDiv.querySelector('.question').value = recommendations[index].question;
@@ -29,12 +49,10 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             showError(error.message);
         } finally {
-            recommendBtn.textContent = "Need ideas? (Ask AI)";
-            recommendBtn.disabled = false;
+            hideSpinner(recommendBtn);
         }
     });
 
-    // 登録ボタンのイベント
     registerBtn.addEventListener('click', async () => {
         const username = usernameInput.value.trim();
         if (!username) {
@@ -59,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        showSpinner(registerBtn);
         try {
             const response = await fetch('/users/', {
                 method: 'POST',
@@ -73,14 +92,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             alert("Registration complete! Returning to the login page.");
-            window.location.href = '/'; // ログインページにリダイレクト
+            window.location.href = '/';
 
         } catch (error) {
             showError(error.message);
+        } finally {
+            hideSpinner(registerBtn);
         }
     });
-
-    function showError(message) {
-        errorMessage.textContent = message;
-    }
 });

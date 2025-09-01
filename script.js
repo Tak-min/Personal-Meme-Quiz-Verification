@@ -1,4 +1,4 @@
-// script.js
+// script.js (リッチUI版)
 document.addEventListener('DOMContentLoaded', () => {
     // 各セクションの要素を取得
     const usernameSection = document.getElementById('username-section');
@@ -19,9 +19,49 @@ document.addEventListener('DOMContentLoaded', () => {
     const poemOutput = document.querySelector('#poem-output .poem');
     const logoutBtn = document.getElementById('logout-btn');
 
-    let currentQuestionId = null;
+    // --- Helper Functions ---
+    const showSpinner = (button) => {
+        const span = button.querySelector('span');
+        const spinner = button.querySelector('.spinner');
+        if (span) span.style.display = 'none';
+        if (spinner) spinner.classList.remove('hidden');
+        button.disabled = true;
+    };
 
-    // クイズ取得ボタンのイベント
+    const hideSpinner = (button) => {
+        const span = button.querySelector('span');
+        const spinner = button.querySelector('.spinner');
+        if (span) span.style.display = 'inline';
+        if (spinner) spinner.classList.add('hidden');
+        button.disabled = false;
+    };
+    
+    const switchSection = (hideSection, showSection) => {
+        hideSection.classList.add('fade-out');
+        setTimeout(() => {
+            hideSection.classList.add('hidden');
+            hideSection.classList.remove('fade-out');
+            
+            showSection.classList.remove('hidden');
+            // DOMが更新されるのを待つために微小な遅延を入れる
+            setTimeout(() => {
+                showSection.style.opacity = 1;
+                showSection.style.transform = 'scale(1)';
+            }, 10);
+        }, 300); // CSSのtransition時間と合わせる
+    };
+
+    const showError = (message) => {
+        errorMessage.textContent = message;
+    };
+    
+    const showWelcomeScreen = (username) => {
+        welcomeMessage.textContent = `Welcome, ${username}. We know your darkness.`;
+        switchSection(quizSection, welcomeSection);
+        showError("");
+    };
+
+    // --- Event Listeners ---
     getQuestionBtn.addEventListener('click', async () => {
         const username = usernameInput.value;
         if (!username) {
@@ -29,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        showSpinner(getQuestionBtn);
         try {
             const response = await fetch('/login/question', {
                 method: 'POST',
@@ -42,32 +83,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const data = await response.json();
             questionText.textContent = data.question;
-            currentQuestionId = data.question_id;
+            // グローバルスコープの代わりに、ボタンのdatasetに保存する方が安全
+            loginBtn.dataset.questionId = data.question_id;
 
-            // 画面切り替え
-            usernameSection.classList.add('hidden');
-            quizSection.classList.remove('hidden');
-            showError(""); // エラーメッセージをクリア
+            switchSection(usernameSection, quizSection);
+            showError("");
         } catch (error) {
             showError(error.message);
+        } finally {
+            hideSpinner(getQuestionBtn);
         }
     });
 
-    // 認証（ログイン）ボタンのイベント
     loginBtn.addEventListener('click', async () => {
         const username = usernameInput.value;
         const answer = answerInput.value;
+        const questionId = loginBtn.dataset.questionId;
         
         if (!answer) {
             showError("Please enter the answer!");
             return;
         }
 
+        showSpinner(loginBtn);
         try {
-            // FastAPIの /token エンドポイントは特殊な形式(form-data)で送る必要がある
             const formData = new URLSearchParams();
             formData.append('username', username);
-            formData.append('question_id', currentQuestionId);
+            formData.append('question_id', questionId);
             formData.append('answer', answer);
 
             const response = await fetch('/token', {
@@ -81,20 +123,18 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             const data = await response.json();
-            // 取得したトークンをブラウザに保存
             localStorage.setItem('accessToken', data.access_token);
             
-            // ログイン成功画面へ
             showWelcomeScreen(username);
 
         } catch (error) {
             showError(error.message);
+        } finally {
+            hideSpinner(loginBtn);
         }
     });
 
-    // ポエム生成ボタンのイベント
     generatePoemBtn.addEventListener('click', () => {
-        // ここではダミーのポエムを生成
         const user = usernameInput.value;
         const poems = [
             `A cry from ${user} echoes in the dark night.\nIs it a tear of jet black,\nor merely hunger's bite?`,
@@ -104,27 +144,19 @@ document.addEventListener('DOMContentLoaded', () => {
         poemOutput.textContent = poems[Math.floor(Math.random() * poems.length)];
     });
 
-    // ログアウトボタンのイベント
     logoutBtn.addEventListener('click', () => {
         localStorage.removeItem('accessToken');
-        // 初期画面に戻す
-        welcomeSection.classList.add('hidden');
-        usernameSection.classList.remove('hidden');
+        // 各入力値をクリア
         usernameInput.value = "";
         answerInput.value = "";
         poemOutput.textContent = "";
+
+        // 表示を初期状態に戻す
+        welcomeSection.style.opacity = 0;
+        welcomeSection.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            welcomeSection.classList.add('hidden');
+            switchSection(welcomeSection, usernameSection);
+        }, 300)
     });
-
-    // ログイン成功画面を表示する関数
-    function showWelcomeScreen(username) {
-        quizSection.classList.add('hidden');
-        welcomeSection.classList.remove('hidden');
-        welcomeMessage.textContent = `Welcome, ${username}. We know your darkness.`;
-        showError("");
-    }
-
-    // エラーメッセージを表示する関数
-    function showError(message) {
-        errorMessage.textContent = message;
-    }
 });

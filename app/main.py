@@ -33,21 +33,26 @@ else:
     gemini_model = None
     print("警告: GEMINI_API_KEYが設定されていません。AI機能は無効になります。")
 
-# --- フロントエンド配信設定 ---
-FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "..", "frontend")
+# --- フロントエンド配信設定 (ここを修正) ---
+# 静的ファイル（HTML, CSS, JS）があるディレクトリを指定（appフォルダの一つ上の階層）
+STATIC_DIR = os.path.join(os.path.dirname(__file__), "..")
 
+# CSSやJSファイルなどを配信するための設定
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+# ルートパス("/")にアクセスがあったらindex.htmlを返す
 @app.get("/")
 async def read_index():
-    return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
+    return FileResponse(os.path.join(STATIC_DIR, "index.html"))
 
+# /registerパスにアクセスがあったらregister.htmlを返す
 @app.get("/register")
 async def read_register():
-    return FileResponse(os.path.join(FRONTEND_DIR, "register.html"))
-
-app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
+    return FileResponse(os.path.join(STATIC_DIR, "register.html"))
 
 
 # --- Gemini Helper Functions ---
+# (変更なし)
 def validate_black_history(answer: str) -> bool:
     if not gemini_model:
         return True
@@ -66,7 +71,9 @@ def validate_black_history(answer: str) -> bool:
         print(f"Gemini API Error: {e}")
         return False
 
-# --- Security Settings ---
+# --- Security Settings & Helper Functions ---
+# (このセクション以降のコードに変更はありません)
+# ... (以前のコードと同じ)
 SECRET_KEY = "your-very-secret-key-that-is-long-and-random"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
