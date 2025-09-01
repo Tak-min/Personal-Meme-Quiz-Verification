@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>黒歴史ログイン</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>史上最も奇妙な認証システム</h1>
+        
+        <div id="username-section">
+            <h2>ログイン</h2>
+            <p>まず、あなたのユーザー名を入力してください。</p>
+            <input type="text" id="username" placeholder="ユーザー名">
+            <button id="get-question-btn">クイズを取得</button>
+            <div class="register-link">
+                <p>アカウントをお持ちでないですか？ <a href="/register">新規登録</a></p>
+            </div>
+            </div>
+
+        <div id="quiz-section" class="hidden">
+            <h2 id="question-text"></h2>
+            <input type="text" id="answer" placeholder="答えを叫べ！">
+            <button id="login-btn">認証</button>
+        </div>
+
+        <div id="welcome-section" class="hidden">
+            <h2 id="welcome-message"></h2>
+            <p>あなたの黒歴史を元に、新たなポエムを生成します...</p>
+            <div id="poem-generator">
+                <button id="generate-poem-btn">ポエムを生成</button>
+                <div id="poem-output">
+                    <p class="poem"></p>
+                </div>
+            </div>
+            <button id="logout-btn">ログアウト</button>
+        </div>
+
+        <p id="error-message" class="error"></p>
+    </div>
+    <script src="/static/script.js"></script>
+</body>
+</html>
